@@ -1238,7 +1238,7 @@
                 englishName: "Statue of Liberty Miniature",
                 country: "آمریکا",
                 origin: "نیویورک",
-                story: "مجسمه آزادی, هدیه‌ای از فرانسه به آمریکا، نمادی از آزادی و دموکراسی است. ماکت‌های آن یادآور سفر به نیویورک و ارزش‌های آمریکایی هستند.",
+                story: "مجسمه آزادی، هدیه‌ای از فرانسه به آمریکا، نمادی از آزادی و دموکراسی است. ماکت‌های آن یادآور سفر به نیویورک و ارزش‌های آمریکایی هستند.",
                 description: "ماکت‌های کوچک از مجسمه آزادی در اندازه‌ها و مواد مختلف.",
                 avgPriceUSD: 12,
                 localPrice: "12 USD",
@@ -1977,10 +1977,7 @@
             document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
 
-        function showStoreDetailModal(storeId) {
-            const store = storesData.find(s => s.id === storeId); // Use storesData
-            if (!store) return;
-
+        function showStoreDetailModal(store) { // Changed to accept store object directly
             storeModalTitle.textContent = store.name;
             storeModalBody.innerHTML = `
                 <div class="flex flex-col md:flex-row gap-4 items-center">
@@ -2296,5 +2293,4 @@
     </script>
 </body>
 </html>
-
 
