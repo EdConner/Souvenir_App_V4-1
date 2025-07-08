@@ -46,6 +46,35 @@
         .modal-content {
             transition: transform 0.3s ease;
         }
+        /* Styles for image album in modals */
+        .image-album {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem; /* Space between images */
+            padding-bottom: 1rem; /* Space for scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #34658F #F1F1F1; /* Firefox */
+        }
+        .image-album::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-album::-webkit-scrollbar-track {
+            background: #F1F1F1;
+            border-radius: 10px;
+        }
+        .image-album::-webkit-scrollbar-thumb {
+            background: #34658F;
+            border-radius: 10px;
+        }
+        .image-album img {
+            flex-shrink: 0; /* Prevent images from shrinking */
+            width: 250px; /* Fixed width for each image in album */
+            height: 180px; /* Fixed height */
+            object-fit: cover;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body class="bg-[#FDFBF7]">
@@ -203,7 +232,7 @@
                 <h2 class="text-2xl font-semibold text-[#34658F] mb-4 text-center">فروشگاه‌های مطرح سوغات</h2>
                 <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">در این بخش، فهرستی از فروشگاه‌های معتبر فیزیکی و آنلاین که به صورت تخصصی در زمینه فروش سوغات و صنایع دستی فعالیت می‌کنند، ارائه شده است. می‌توانید برای یافتن فروشگاه مورد نظر، در کادر زیر جستجو کنید.</p>
                 <input type="text" id="store-search" placeholder="جستجوی فروشگاه بر اساس نام یا کشور..." class="w-full max-w-lg mx-auto block p-2 border border-gray-300 rounded-md shadow-sm mb-6 focus:ring-[#4F80B9] focus:border-[#4F80B9]">
-                <div id="store-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="store-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 </div>
             </div>
         </section>
@@ -270,6 +299,17 @@
         </div>
     </div>
 
+    <div id="country-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="country-modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+                <h3 id="country-modal-title" class="text-2xl font-bold text-[#34658F]"></h3>
+                <button id="close-country-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
+            </div>
+            <div id="country-modal-body" class="p-6">
+            </div>
+        </div>
+    </div>
+
     <div id="tourist-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden opacity-0">
         <div id="tourist-modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
             <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
@@ -314,7 +354,12 @@
                 usage: "تزئین منزل، هدیه فرهنگی، کلکسیون",
                 culturalValue: 8,
                 economicValue: 7,
-                imageUrl: "https://placehold.co/400x300/E0BBE4/FFFFFF?text=Matryoshka",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/E0BBE4/FFFFFF?text=Matryoshka+1",
+                    "https://placehold.co/400x300/E0BBE4/FFFFFF?text=Matryoshka+2",
+                    "https://placehold.co/400x300/E0BBE4/FFFFFF?text=Matryoshka+3"
+                ],
                 annualProductionUnits: 150000,
                 annualSalesRevenueUSD: 5250000
             },
@@ -339,7 +384,12 @@
                     sales: "مشکلات فروش شامل رقابت با فرش‌های ماشینی، نوسانات بازار ارز و دشواری در صادرات به دلیل تحریم‌ها.",
                     development: "فرصت‌ها شامل توسعه بازارهای آنلاین، طراحی‌های مدرن‌تر برای جذب نسل جوان و تمرکز بر پایداری و اصالت."
                 },
-                imageUrl: "https://placehold.co/400x300/957DAD/FFFFFF?text=Persian+Carpet",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/957DAD/FFFFFF?text=Persian+Carpet+1",
+                    "https://placehold.co/400x300/957DAD/FFFFFF?text=Persian+Carpet+2",
+                    "https://placehold.co/400x300/957DAD/FFFFFF?text=Persian+Carpet+3"
+                ],
                 annualProductionUnits: 5000,
                 annualSalesRevenueUSD: 2250000
             },
@@ -359,7 +409,11 @@
                 usage: "دکور دیوار، هدیه، استفاده در مهمانی‌های بالماسکه",
                 culturalValue: 9,
                 economicValue: 7,
-                imageUrl: "https://placehold.co/400x300/D291BC/FFFFFF?text=Venetian+Mask",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/D291BC/FFFFFF?text=Venetian+Mask+1",
+                    "https://placehold.co/400x300/D291BC/FFFFFF?text=Venetian+Mask+2"
+                ],
                 annualProductionUnits: 80000,
                 annualSalesRevenueUSD: 4800000
             },
@@ -384,7 +438,11 @@
                     sales: "بازار فروش کیمونوهای سنتی محدود به رویدادهای خاص و گردشگران است. قیمت بالا نیز یک چالش است.",
                     development: "فرصت‌ها شامل طراحی کیمونوهای مدرن‌تر و قابل استفاده در زندگی روزمره، و بازاریابی جهانی از طریق پلتفرم‌های آنلاین."
                 },
-                imageUrl: "https://placehold.co/400x300/FFC72C/FFFFFF?text=Kimono",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/FFC72C/FFFFFF?text=Kimono+1",
+                    "https://placehold.co/400x300/FFC72C/FFFFFF?text=Kimono+2"
+                ],
                 annualProductionUnits: 20000,
                 annualSalesRevenueUSD: 3000000
             },
@@ -404,7 +462,11 @@
                 usage: "دکور میز، یادگاری سفر، هدیه",
                 culturalValue: 6,
                 economicValue: 5,
-                imageUrl: "https://placehold.co/400x300/A7D2CB/FFFFFF?text=Sphinx",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A7D2CB/FFFFFF?text=Sphinx+1",
+                    "https://placehold.co/400x300/A7D2CB/FFFFFF?text=Sphinx+2"
+                ],
                 annualProductionUnits: 200000,
                 annualSalesRevenueUSD: 3000000
             },
@@ -424,7 +486,11 @@
                 usage: "پوشش روزمره، مد و فشن, یادگاری",
                 culturalValue: 7,
                 economicValue: 6,
-                imageUrl: "https://placehold.co/400x300/F8D800/FFFFFF?text=Cowboy+Hat",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/F8D800/FFFFFF?text=Cowboy+Hat+1",
+                    "https://placehold.co/400x300/F8D800/FFFFFF?text=Cowboy+Hat+2"
+                ],
                 annualProductionUnits: 75000,
                 annualSalesRevenueUSD: 6000000
             },
@@ -444,7 +510,11 @@
                 usage: "اسباب بازی، دکور، هدیه ورزشی",
                 culturalValue: 8,
                 economicValue: 6,
-                imageUrl: "https://placehold.co/400x300/FF6F61/FFFFFF?text=Boomerang",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/FF6F61/FFFFFF?text=Boomerang+1",
+                    "https://placehold.co/400x300/FF6F61/FFFFFF?text=Boomerang+2"
+                ],
                 annualProductionUnits: 120000,
                 annualSalesRevenueUSD: 3000000
             },
@@ -464,7 +534,11 @@
                 usage: "گلدان، دکور دیوار، یادگاری",
                 culturalValue: 7,
                 economicValue: 5,
-                imageUrl: "https://placehold.co/400x300/6B5B95/FFFFFF?text=Dutch+Clogs",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/6B5B95/FFFFFF?text=Dutch+Clogs+1",
+                    "https://placehold.co/400x300/6B5B95/FFFFFF?text=Dutch+Clogs+2"
+                ],
                 annualProductionUnits: 90000,
                 annualSalesRevenueUSD: 2700000
             },
@@ -484,7 +558,11 @@
                 usage: "روشنایی، دکوراسیون، هدیه",
                 culturalValue: 8,
                 economicValue: 6,
-                imageUrl: "https://placehold.co/400x300/88B04B/FFFFFF?text=Moroccan+Lantern",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/88B04B/FFFFFF?text=Moroccan+Lantern+1",
+                    "https://placehold.co/400x300/88B04B/FFFFFF?text=Moroccan+Lantern+2"
+                ],
                 annualProductionUnits: 60000,
                 annualSalesRevenueUSD: 2700000
             },
@@ -504,7 +582,11 @@
                 usage: "دکور منزل، ظروف کاربردی، کلکسیون",
                 culturalValue: 9,
                 economicValue: 7,
-                imageUrl: "https://placehold.co/400x300/F7CAC9/FFFFFF?text=Greek+Pottery",
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/F7CAC9/FFFFFF?text=Greek+Pottery+1",
+                    "https://placehold.co/400x300/F7CAC9/FFFFFF?text=Greek+Pottery+2"
+                ],
                 annualProductionUnits: 70000,
                 annualSalesRevenueUSD: 3850000
             },
@@ -529,11 +611,15 @@
                 website: "https://www.thesouveniremporium.com",
                 salesVolume: "1500000.00",
                 areaSqM: "200",
-                length: 20, // Added length
-                width: 10,  // Added width
+                length: 20, 
+                width: 10,  
                 productsSold: ["صنایع دستی چوبی", "لباس‌های محلی", "ماکت‌های جاذبه‌ها"],
                 location: "آنلاین (دفتر مرکزی در شهر اصلی)",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store1"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store1+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store1+B"
+                ]
             },
             {
                 id: 2,
@@ -546,7 +632,11 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "تی‌شرت‌های محلی"],
                 location: "خیابان اصلی، مرکز شهر",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store2"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store2+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store2+B"
+                ]
             },
             {
                 id: 3,
@@ -559,7 +649,11 @@
                 width: 10,
                 productsSold: ["عروسک‌های سنتی", "محصولات سنگی"],
                 location: "بازار بزرگ، منطقه تاریخی",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store3"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store3+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store3+B"
+                ]
             },
             {
                 id: 4,
@@ -572,7 +666,11 @@
                 width: 10,
                 productsSold: ["منسوجات دست‌باف", "عروسک‌های سنتی"],
                 location: "نزدیک جاذبه توریستی",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store4"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store4+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store4+B"
+                ]
             },
             {
                 id: 5,
@@ -585,7 +683,11 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "محصولات سنگی"],
                 location: "مرکز خرید مدرن",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store5"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store5+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store5+B"
+                ]
             },
             {
                 id: 6,
@@ -598,7 +700,11 @@
                 width: 10,
                 productsSold: ["فرش و گلیم", "سرامیک‌های دست‌ساز"],
                 location: "دهکده صنایع دستی",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store6"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store6+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store6+B"
+                ]
             },
             {
                 id: 7,
@@ -611,7 +717,11 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "سرامیک‌های دست‌ساز"],
                 location: "خیابان خرید لوکس",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store7"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store7+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store7+B"
+                ]
             },
             {
                 id: 8,
@@ -624,7 +734,11 @@
                 width: 10,
                 productsSold: ["کلاه و پوشاک", "ابزار سنتی"],
                 location: "بلوار ساحلی",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store8"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store8+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store8+B"
+                ]
             },
             {
                 id: 9,
@@ -637,7 +751,11 @@
                 width: 10,
                 productsSold: ["ابزار سنتی", "صنایع دستی چوبی"],
                 location: "منطقه هنری",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store9"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store9+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store9+B"
+                ]
             },
             {
                 id: 10,
@@ -650,7 +768,11 @@
                 width: 10,
                 productsSold: ["محصولات چرمی", "سفالینه‌های رنگی"],
                 location: "بازار بزرگ، منطقه تاریخی",
-                image: "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store10"
+                // Updated to imageUrls array
+                imageUrls: [
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store10+A",
+                    "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store10+B"
+                ]
             },
             // You can add more store objects here by copying and pasting the structure above.
         ];
@@ -663,9 +785,9 @@
                 tourists: "89 میلیون نفر",
                 avgSpending: 120, 
                 souvenirSpendingPercentage: 15, 
-                transportationCost: 40, // Added
-                accommodationCost: 50, // Added
-                foodCost: 30,          // Added
+                transportationCost: 40, 
+                accommodationCost: 50, 
+                foodCost: 30,          
                 popularProducts: ["ماکت برج ایفل", "کلاه برت", "عطر"],
                 notes: "پاریس به عنوان پایتخت مد و هنر، مقصدی محبوب برای خرید سوغات لوکس است."
             },
@@ -949,10 +1071,13 @@
             const storeDetailModal = document.getElementById('store-detail-modal');
             const storeModalContent = document.getElementById('store-modal-content');
             const closeStoreModalBtn = document.getElementById('close-store-modal');
-            const touristAnalysisGrid = document.getElementById('tourist-analysis-grid'); // New
-            const touristDetailModal = document.getElementById('tourist-detail-modal'); // New
-            const touristModalContent = document.getElementById('tourist-modal-content'); // New
-            const closeTouristModalBtn = document.getElementById('close-tourist-modal'); // New
+            const countryDetailModal = document.getElementById('country-detail-modal'); // New
+            const countryModalContent = document.getElementById('country-modal-content'); // New
+            const closeCountryModalBtn = document.getElementById('close-country-modal'); // New
+            const touristAnalysisGrid = document.getElementById('tourist-analysis-grid'); 
+            const touristDetailModal = document.getElementById('tourist-detail-modal'); 
+            const touristModalContent = document.getElementById('tourist-modal-content'); 
+            const closeTouristModalBtn = document.getElementById('close-tourist-modal'); 
 
 
             const showRankingBtn = document.getElementById('show-ranking-btn');
@@ -1006,7 +1131,7 @@
                     const audienceTags = product.audience.map(aud => `<span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full whitespace-nowrap">${aud}</span>`).join('');
 
                     card.innerHTML = `
-                        <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Image';">
+                        <img src="${product.imageUrls[0]}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Image';">
                         <div class="p-5">
                             <h3 class="text-lg font-bold text-[#34658F] truncate">${product.name}</h3>
                             <p class="text-sm text-gray-500 mb-2">${product.country}</p>
@@ -1071,10 +1196,18 @@
                     `;
                 }
 
+                // Image Album for Product Modal
+                const imageAlbumHtml = product.imageUrls.map(url => `
+                    <img src="${url}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Image';" />
+                `).join('');
+
+
                 modalBody.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex flex-col items-center">
-                            <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto max-h-64 object-contain rounded-lg shadow-md mb-4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Image';">
+                            <div class="image-album w-full mb-4">
+                                ${imageAlbumHtml}
+                            </div>
                             <h4 class="font-bold text-lg mt-2 mb-2 text-[#4F80B9]">داستان محصول</h4>
                             <p class="text-gray-700 leading-relaxed text-center">${product.story}</p>
                         </div>
@@ -1181,9 +1314,9 @@
                 const spendingLabels = consolidatedCountriesInfo.map(c => c.name);
                 const totalSpending = consolidatedCountriesInfo.map(c => c.avgSpending);
                 const souvenirSpending = consolidatedCountriesInfo.map(c => (c.avgSpending * c.souvenirSpendingPercentage / 100).toFixed(2));
-                const transportationSpending = consolidatedCountriesInfo.map(c => c.transportationCost); // New
-                const accommodationSpending = consolidatedCountriesInfo.map(c => c.accommodationCost);   // New
-                const foodSpending = consolidatedCountriesInfo.map(c => c.foodCost);                   // New
+                const transportationSpending = consolidatedCountriesInfo.map(c => c.transportationCost); 
+                const accommodationSpending = consolidatedCountriesInfo.map(c => c.accommodationCost);   
+                const foodSpending = consolidatedCountriesInfo.map(c => c.foodCost);                   
                 
                 const spendingData = {
                     labels: spendingLabels,
@@ -1203,21 +1336,21 @@
                             borderWidth: 1
                         },
                         {
-                            label: 'هزینه حمل و نقل (دلار)', // New
+                            label: 'هزینه حمل و نقل (دلار)', 
                             data: transportationSpending,
                             backgroundColor: 'rgba(75, 192, 192, 0.7)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'هزینه اسکان (دلار)', // New
+                            label: 'هزینه اسکان (دلار)', 
                             data: accommodationSpending,
                             backgroundColor: 'rgba(153, 102, 255, 0.7)',
                             borderColor: 'rgba(153, 102, 255, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'هزینه خوراک (دلار)', // New
+                            label: 'هزینه خوراک (دلار)', 
                             data: foodSpending,
                             backgroundColor: 'rgba(255, 99, 132, 0.7)',
                             borderColor: 'rgba(255, 99, 132, 1)',
@@ -1282,7 +1415,7 @@
                     storeEl.className = "border rounded-lg p-4 flex flex-col items-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer text-center"; // Changed to flex-col for image
                     storeEl.dataset.id = store.id; // Add data-id for click handling
                     storeEl.innerHTML = `
-                        <img src="${store.image}" alt="${store.name}" class="w-full h-32 object-cover rounded-t-lg mb-3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Store+Image';">
+                        <img src="${store.imageUrls[0]}" alt="${store.name}" class="w-full h-32 object-cover rounded-t-lg mb-3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Store+Image';">
                         <p class="font-bold text-lg text-gray-800">${store.name}</p>
                         <p class="text-sm text-gray-500">${store.country}</p>
                         <p class="text-xs text-gray-400 mt-1">ابعاد: ${store.length}x${store.width} متر</p>
@@ -1320,17 +1453,25 @@
             function showStoreDetailModal(store) {
                 document.getElementById('store-modal-title').textContent = store.name;
                 const storeModalBody = document.getElementById('store-modal-body');
+
+                // Image Album for Store Modal
+                const imageAlbumHtml = store.imageUrls.map(url => `
+                    <img src="${url}" alt="${store.name}" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Store+Image';" />
+                `).join('');
+
                 storeModalBody.innerHTML = `
                     <div class="flex flex-col items-center mb-4">
-                        <img src="${store.image}" alt="${store.name}" class="w-full h-48 object-cover rounded-lg shadow-md mb-4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/CCCCCC/333333?text=No+Store+Image';">
+                        <div class="image-album w-full mb-4">
+                            ${imageAlbumHtml}
+                        </div>
                     </div>
                     <ul class="space-y-3 text-gray-800">
                         <li class="flex justify-between"><strong>کشور:</strong> <span>${store.country}</span></li>
                         <li class="flex justify-between"><strong>موقعیت جغرافیایی:</strong> <span>${store.location}</span></li>
                         <li class="flex justify-between"><strong>میزان فروش سالانه:</strong> <span>${parseFloat(store.salesVolume).toLocaleString()}$</span></li>
                         <li class="flex justify-between"><strong>مساحت:</strong> <span>${store.areaSqM} متر مربع</span></li>
-                        <li class="flex justify-between"><strong>طول:</strong> <span>${store.length} متر</span></li> <!-- Added -->
-                        <li class="flex justify-between"><strong>عرض:</strong> <span>${store.width} متر</span></li>  <!-- Added -->
+                        <li class="flex justify-between"><strong>طول:</strong> <span>${store.length} متر</span></li> 
+                        <li class="flex justify-between"><strong>عرض:</strong> <span>${store.width} متر</span></li>  
                         <li>
                             <strong>محصولات اصلی:</strong>
                             <ul class="list-disc list-inside mt-1 pr-4">
@@ -1376,7 +1517,8 @@
 
                 consolidatedCountriesInfo.forEach(country => {
                     const countryCard = document.createElement('div');
-                    countryCard.className = "bg-white rounded-lg shadow-lg p-6";
+                    countryCard.className = "bg-white rounded-lg shadow-lg p-6 cursor-pointer transform hover:-translate-y-1 transition-transform duration-300"; // Added cursor-pointer
+                    countryCard.dataset.countryName = country.name; // Add data-country-name for click handling
                     countryCard.innerHTML = `
                         <h3 class="text-xl font-bold text-[#34658F] mb-3">${country.name}</h3>
                         <p class="text-gray-700 mb-2"><strong>تعداد گردشگر:</strong> ${country.tourists}</p>
@@ -1388,6 +1530,65 @@
                 });
             }
             renderCountries(); // Call this function on load
+
+            // Event listener for country grid clicks (to open country detail modal)
+            countryGrid.addEventListener('click', (e) => {
+                const countryCard = e.target.closest('[data-country-name]');
+                if (countryCard) {
+                    const countryName = countryCard.dataset.countryName;
+                    const country = consolidatedCountriesInfo.find(c => c.name === countryName);
+                    if (country) {
+                        showCountryDetailModal(country);
+                    }
+                }
+            });
+
+            // New function to show country detail modal with cost analysis
+            function showCountryDetailModal(country) {
+                document.getElementById('country-modal-title').textContent = `جزئیات کشور: ${country.name}`;
+                const modalBody = document.getElementById('country-modal-body');
+                modalBody.innerHTML = `
+                    <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-bold text-lg mb-3 text-[#4F80B9]">اطلاعات کلی</h4>
+                        <ul class="space-y-3 text-gray-800">
+                            <li class="flex justify-between"><strong>تعداد گردشگر:</strong> <span>${country.tourists}</span></li>
+                            <li class="flex justify-between"><strong>محصولات محبوب:</strong> <span>${country.popularProducts.join(', ')}</span></li>
+                            <li><strong>نکات:</strong> <span>${country.notes}</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-bold text-lg mb-3 text-[#4F80B9]">تحلیل هزینه‌ها (سرانه)</h4>
+                        <ul class="space-y-3 text-gray-800">
+                            <li class="flex justify-between"><strong>متوسط سبد خرید:</strong> <span>${country.avgSpending}$</span></li>
+                            <li class="flex justify-between"><strong>درصد هزینه سوغاتی:</strong> <span>${country.souvenirSpendingPercentage}%</span></li>
+                            <li class="flex justify-between"><strong>هزینه حمل و نقل:</strong> <span>${country.transportationCost}$</span></li>
+                            <li class="flex justify-between"><strong>هزینه اسکان:</strong> <span>${country.accommodationCost}$</span></li>
+                            <li class="flex justify-between"><strong>هزینه خوراک:</strong> <span>${country.foodCost}$</span></li>
+                        </ul>
+                    </div>
+                `;
+                countryDetailModal.classList.remove('hidden');
+                setTimeout(() => {
+                    countryDetailModal.classList.remove('opacity-0');
+                    countryModalContent.classList.remove('scale-95');
+                }, 10);
+            }
+
+            function closeCountryDetailModal() {
+                 countryDetailModal.classList.add('opacity-0');
+                 countryModalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    countryDetailModal.classList.add('hidden');
+                }, 300);
+            }
+            
+            closeCountryModalBtn.addEventListener('click', closeCountryDetailModal);
+            countryDetailModal.addEventListener('click', (e) => {
+                if(e.target === countryDetailModal) {
+                    closeCountryDetailModal();
+                }
+            });
+
 
             const rankingTableBody = document.getElementById('ranking-body');
             const rankingTableHeaders = document.querySelectorAll('#ranking-table th[data-sort]');
